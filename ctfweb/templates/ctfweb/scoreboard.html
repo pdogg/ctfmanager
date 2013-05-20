@@ -1,0 +1,20 @@
+{% extends "ctfweb/base.html" %}
+
+{% block headblock %}
+<meta http-equiv="refresh" content="60">
+{% endblock %}
+
+{% block content %}
+
+<B>Current Standings:</B><BR>{{ status }}<BR><BR>
+{% if score_list %}
+	<TABLE width=50%><TR><TD><p><B>Name</B></p></TD><TD><B>Affiliation</B></TD><TD><B>Points</B></TD></TR>
+	{% for comp in score_list %}
+	<TR>
+	<TD><A HREF="/ctfweb/competitor/{{ comp.id }}/">{{ comp.display_name }}</A></TD><TD>{{ comp.affiliation }} </TD><TD> {{ comp.points }}</TD></TR>
+	{% endfor %}
+	</TABLE>	
+{% else %}
+No active competitors...
+{% endif %}
+{% endblock %}

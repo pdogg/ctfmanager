@@ -1,0 +1,22 @@
+{% extends "ctfweb/base.html" %}
+
+{% block content %}
+
+{% if errorrecall %}
+Registration Error! Check these items : {{ fieldstring}}
+{% endif %}
+--- ONE ACCOUNT PER TEAM PLEASE --- <BR>--- Now would also be a good time to read the rules --- <BR>
+      <form action="../registerprocess/" method="POST">{% csrf_token %}
+       <TABLE>
+	<TR><TD>Team/Player Username: </TD><TD><input type="text" name="username">*</TD></TR>
+	<TR><TD>Team/Player Display Name:</TD><TD> <input type="text" name="displayname">*</TD></TR>
+	<TR><TD>Password: </TD><TD><input type="text" name="password">*</TD></TR>
+	<TR><TD>Confirm Password: </TD><TD><input type="text" name="passwordconfirm">*</TD></TR>
+	<TR><TD>Contact Email: </TD><TD><input type="text" name="email">*</TD></TR>
+	<TR><TD>Team/Player Affiliation: </TD><TD><input type="text" name="affiliation"></TD></TR>
+	<TR><TD>Team/Player URL: </TD><TD><input type="text" name="url"></TD></TR>
+	</TABLE>
+        <input type="submit" value="Submit"><BR>
+	* - Required Field
+	</FORM>
+{% endblock %}

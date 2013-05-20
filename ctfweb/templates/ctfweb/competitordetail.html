@@ -1,0 +1,16 @@
+{% extends "ctfweb/base.html" %}
+
+{% block content %}
+
+{{ competitor.display_name }} - {{ competitor.affiliation }}<BR>{{ competitor.url }}<BR><BR>Current Score: {{ competitor.points }} <BR><BR>
+{% if numsolved %}
+	<TABLE width=50%><TR><TD><B>Challenge</B></TD><TD><B>Time</B></TD><TD><B>Points</B></TD></TR>
+	{% for s in solved_list %}
+	<TR>
+	<TD><A HREF="/ctfweb/challenge/{{ s.challenge.id}}/">{{ s.challenge }}</A></TD><TD>{{ s.time }} </TD><TD> {{ s.points }}</TD></TR>
+	{% endfor %}
+	</TABLE>	
+{% else %}
+No challenges solved
+{% endif %}
+{% endblock %}

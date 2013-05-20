@@ -1,0 +1,17 @@
+{% extends "ctfweb/base.html" %}
+
+{% block content %}
+
+{% if category_list %}
+	<TABLE>
+	{% for cat in category_list %}
+	<TR> <TD><B>{{ cat.name }} </B></TD>
+	   {% for chall in cat.challenge_set.all %}
+		<TD><A href="../../ctfweb/challenge/{{chall.id}}/">{{ chall.name }}</a> <BR> {{ chall.points }} <BR> {% if chall.active %} is active {% else %} not active {% endif %}</TD>
+	   {% endfor %}	</TR>
+	{% endfor %} </TABLE>
+	
+{% else %}
+I have no challenges to show you...
+{% endif %}
+{% endblock %}

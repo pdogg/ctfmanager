@@ -1,0 +1,48 @@
+
+
+<HTML>
+<HEAD>
+{% block headblock %}{% endblock %}
+<title>BSides Boston CTF 2013</title>
+<link rel="stylesheet" type="text/css" href="/static/ctfweb/base.css" />
+</HEAD>
+<BODY>
+
+   <div class="wrapper">
+      	<div class="header">
+
+	<H1>BSides Boston 2013 CTF<BLINK>_</BLINK></H1>
+	</div>
+	<div class="contents">
+
+
+	
+<CENTER>
+
+<H3><A HREF="/ctfweb/challenges/">Challenges</A> - <A HREF="/ctfweb/scoreboard/">Scoreboard</A> - <A HREF="/ctfweb/rules/">Rules</A>
+        {% if user.is_authenticated %}
+           - {{ user.username }} :  <A HREF="/ctfweb/logout/">Logout</A>
+        {% else %}
+           -  <A HREF="/ctfweb/login/">Please log in</A> or <A HREF="/ctfweb/register/">Register</A>
+        {% endif %}
+</H3>
+
+<BR>
+	
+{% block content %}{% endblock %}
+	</div>	
+
+</CENTER><BR><BR><div class="footer">
+HUGE Thank you to the challenge contributors @TheDukeZip @jack_daniel @shoebox @claudijd @523
+	</div>
+</div>
+
+
+
+
+
+
+<!-- In Plain Sight c4af4c99b38f8706a4077b8b14d4dd83 --!>
+
+<BODY>
+</HTML>

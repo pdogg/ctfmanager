@@ -1,0 +1,18 @@
+<VirtualHost *:80>
+        ServerName ctfboard
+	ServerAlias ctfboard.ctf
+        WSGIScriptAlias / /var/www/ctfmanager/ctfmanager.wsgi
+	Alias /static/ /var/www/static/
+
+</VirtualHost>
+
+<VirtualHost *:443>
+	SSLEngine on
+	SSLCertificateFile /etc/apache2/ssl/apache.crt
+	SSLCertificateKeyFile /etc/apache2/ssl/apache.key
+        ServerName ctfboard
+        ServerAlias ctfboard.ctf
+        WSGIScriptAlias / /var/www/ctfmanager/ctfmanager.wsgi
+        Alias /static/ /var/www/static/
+
+</VirtualHost>

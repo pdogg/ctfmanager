@@ -1,0 +1,67 @@
+CTFmanager - v. 0.5 - May 2013 - paul@pauldrapeau.com @pdogg77
+
+Scoreboard and management application for a Jeopardy style Capture the Flag
+hacker game. Written in Python using the Django framework. Supports multiple
+challenges across multiple categories, and multiple games (data model support,
+not totally implemented in code). Leverages the Django auth framework for user
+management and admin framework for backend administration.
+
+Installation Overview:
+
+Can be used with mod_wsgi on Apache with the configurations in apacheexamples
+or will run on the Django dev web server.
+
+General Procedure:
+
+Place the code in a sane place on the system.
+Get and install Apache and mod_wsgi if you are going that route and a dbms
+	Make sure all that works
+Get and install Python, Django and appropriate Python libs for your database
+	Make sure all that works
+Create a database, database user and password for the application to use.
+	Tested with mysql but it should support any db backend Django can use
+
+Edit ctfmanager/settings.py as necessary. You proably want to take it out of
+Debug mode when you are ready to go production and you'll want to edit the
+locations for static files, the secret etc.
+
+Run "python manage.py syncdb"
+
+Run "./manage.py collectstatic"
+
+It will ask you to add an administrative user, you want to do this
+
+This should get you up and running enough to go to <YOUR URL>/admin/
+	Create a "Game"
+	Create some "Categories"
+	Create some "Challenges"
+
+The administrative user is a valid user to view the challenges and scoreboard
+but obviously can't score points.
+
+The majority of the application lives in /ctfweb/
+
+The templates and .css included were used at BSides Boston but could easily
+be modified or replaced to suit your needs.
+
+
+Important Notes:
+
+There is some cleanup of the keys done to help avoid strange cases and easily
+suppot "triva" type challenges by stripping white space, removing special chars
+and putting all keys in the same case. This could cause issues if your keys 
+contain and only differ by special characters, mixed case, or something else
+weird. The best keys are alpha numeric and don't depend on case.
+
+Urgent TO DOs:
+
+Add a wait timer to the registration page preventing mass out of control user
+registraiton leading to annoying/DoS conditions
+
+Add a wait timer on the key submission pages to prevent or slow brute force
+
+Add checks and alerts for teams generating lots of bad keys (this is now manual
+via the admin application)
+
+Add a feature to make "solved" challenges obvious in the challenge board
+

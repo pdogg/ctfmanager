@@ -1,0 +1,26 @@
+{% extends "ctfweb/base.html" %}
+
+{% block content %}
+
+{{ chall.name }} -- {{ chall.points }} points<BR><BR>
+ {{ chall.description|safe }} <BR><BR>
+
+
+{% if hints %}
+        <BR><BR>Hints For This Challenge:<BR><BR>
+        {% for hint in hints %}
+        {{ hint }} <BR><BR>
+        {% endfor %}
+        </ul>
+
+{% endif %}
+
+{% if chall.active %}
+{% if unsolved %}
+      <form action="../../submitkey/{{ chall.id }}/" method="POST">{% csrf_token %}
+	Key: <input type="text" name="keysubmit"><br>
+	<input type="submit" value="Submit">
+{% endif %}
+{% endif %}
+
+{% endblock %}
