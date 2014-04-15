@@ -38,7 +38,6 @@ def currentplayer(request):
                 return False
         return compinstance
 
-
 def hassolved(comp, chall):
 #given a competitor and challenge
 #return True if the competitor has solced the challenge

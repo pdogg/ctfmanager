@@ -1,13 +1,12 @@
 {% extends "ctfweb/base.html" %}
-
+{% load extratags %} 
 {% block content %}
-
 {% if category_list %}
 	<TABLE width="50%">
 	{% for cat in category_list %}
 	<TR><TD><B>{{ cat.name }}</B></TD>
 	   {% for chall in cat.challenge_set.all %}
-		<TD bgcolor="#{% if chall.active %}000022{% else %}222222{% endif %}"><CENTER>  <A href="../../ctfweb/challenge/{{chall.id}}/">{{ chall.points }}</a>  </CENTER></TD>
+		<TD bgcolor="#{% if auth_player|filthassolved:chall %}002222{% else %}{%if chall.active %}000022{% else %}222222{% endif %}{% endif %}"><CENTER>  <A href="../../ctfweb/challenge/{{chall.id}}/">{{ chall.points }}</a>  </CENTER></TD>
 	   {% endfor %}</TR>
 
 	{% endfor %}</TABLE>

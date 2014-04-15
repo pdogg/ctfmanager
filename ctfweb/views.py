@@ -23,8 +23,8 @@ def allchallenges(request):
 		return genericerror(request, "Game Not Running!")
 
         category_list = Category.objects.order_by("name")
-	
-	return render(request, "ctfweb/challenges.html", {'category_list': category_list})
+
+	return render(request, "ctfweb/challenges.html", {'category_list': category_list, 'auth_player': auth_player})
 
 
 
