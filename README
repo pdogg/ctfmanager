@@ -63,5 +63,6 @@ Add a wait timer on the key submission pages to prevent or slow brute force
 Add checks and alerts for teams generating lots of bad keys (this is now manual
 via the admin application)
 
-Add a feature to make "solved" challenges obvious in the challenge board
+DONE:
+added a feature to make "solved" challenges obvious in the challenge board
 
