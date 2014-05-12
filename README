@@ -1,4 +1,6 @@
-CTFmanager - v. 0.5 - May 2013 - paul@pauldrapeau.com @pdogg77
+CTFmanager - v. 1.0 - May 2014 - paul@pauldrapeau.com @pdogg77
+
+*** Updated to Django 1.6 and made several changes to support registration codes
 
 Scoreboard and management application for a Jeopardy style Capture the Flag
 hacker game. Written in Python using the Django framework. Supports multiple
@@ -24,6 +26,8 @@ Create a database, database user and password for the application to use.
 Edit ctfmanager/settings.py as necessary. You proably want to take it out of
 Debug mode when you are ready to go production and you'll want to edit the
 locations for static files, the secret etc.
+
+CHANGE THE SECRET in settings.py
 
 Run "python manage.py syncdb"
 

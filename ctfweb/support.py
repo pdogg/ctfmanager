@@ -72,7 +72,16 @@ def solve(comp, chall):
 	    	print "DEBUG BAD STUFF support.solve - Competitor " + comp + " already solved " + chall + " DUPLICATE SOLVE - Doing nothing! "
 		return False
 
+
 def washstring(string):
 # return a lowercased string with specail characters removed
 	outstring = ''.join(e for e in string if e.isalnum())
 	return outstring.lower()
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

@@ -10,7 +10,7 @@ class Game(models.Model):				#Overall Game Object
 	start_time = models.DateTimeField()		#time to start
 	end_time = models.DateTimeField()		#time game ends
 	active = models.IntegerField(default=1)		#is the game active
-	
+	require_regcodes = models.IntegerField(default=0) #does the game require reg codes
 	def __unicode__(self):
 		return self.name
 
@@ -52,6 +52,12 @@ class Hint(models.Model):				#hints to be displayed for a given challenge
 	def __unicode__(self):
                 return self.text
 
+class RegCodes(models.Model):				# valid once reg codes 
+	code = models.CharField(max_length=200, null=True, blank=True) #codes
+	used = models.IntegerField(default=0)				#is it used?
+
+	def __unicode__(self):
+		return self.code
 
 
 class Competitor(models.Model):				#hold competiors (may extend the auth_user, dunno)
@@ -63,7 +69,8 @@ class Competitor(models.Model):				#hold competiors (may extend the auth_user, d
 	bad_keys = models.IntegerField(default=0)	#how many bad keys have they submitted
 	points = models.IntegerField(default=0)		#current point total
 	active = models.IntegerField(default=1)		#is the competitor active (ie allowed to play, score, count in standings)
-
+	ipaddr = models.CharField(max_length=200, null=True, blank=True) #ip the competitor reged from
+	regcode = models.ForeignKey(RegCodes, null=True) #code the competitor used to reg				   
 	def __unicode__(self):
                 return self.display_name
 

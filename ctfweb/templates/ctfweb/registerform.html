@@ -1,13 +1,15 @@
 {% extends "ctfweb/base.html" %}
 
+{%load extratags %}
 {% block content %}
 
 {% if errorrecall %}
-Registration Error! Check these items : {{ fieldstring}}
+Registration Error! Check these items : {{ fieldstring}} <BR><BR>
 {% endif %}
 --- ONE ACCOUNT PER TEAM PLEASE --- <BR>--- Now would also be a good time to read the rules --- <BR>
       <form action="../registerprocess/" method="POST">{% csrf_token %}
        <TABLE>
+	{% if usingregcodes %}<TR><TD>Registration Code: </TD><TD><input type="text" name="regcode">*</TD></TR>{% endif %}
 	<TR><TD>Team/Player Username: </TD><TD><input type="text" name="username">*</TD></TR>
 	<TR><TD>Team/Player Display Name:</TD><TD> <input type="text" name="displayname">*</TD></TR>
 	<TR><TD>Password: </TD><TD><input type="text" name="password">*</TD></TR>
