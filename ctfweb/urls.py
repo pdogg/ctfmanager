@@ -1,6 +1,6 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from django.contrib.auth.views  import *
-
+from django.views.generic.base import RedirectView, TemplateView
 
 from ctfweb import views
 
@@ -14,7 +14,7 @@ urlpatterns = patterns('',
 	url(r'^logout/', views.logout_view, name='logout'),
 	url(r'^register/$', views.registerform, name='registerform'),
 	url(r'^registerprocess/$', views.registerprocess, name='registerprocess'),
-	url(r'^rules/', 'django.views.generic.simple.direct_to_template', {'template': 'ctfweb/rules.html'}),
+	url(r'^rules/', TemplateView.as_view(template_name='ctfweb/rules.html')),
 	url(r'^competitor/(?P<comp_id>\d+)/$', views.competitordetail, name='competitor'),
 )
 

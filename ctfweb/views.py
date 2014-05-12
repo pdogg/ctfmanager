@@ -1,11 +1,10 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import Context, loader
 from ctfweb.models import *
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import logout
+from django.contrib.auth import logout, views
 from ctfweb.support import *
-
 
 
 def index(request):
@@ -15,7 +14,7 @@ def index(request):
 
 def allchallenges(request):
 	if not request.user.is_authenticated():
-		return redirect("/ctfweb/login/")    
+		return HttpResponseRedirect("/ctfweb/login/")    
 	else:
 		auth_player = currentplayer(request)	   
        
@@ -34,7 +33,7 @@ def challenge(request, challenge_id):
                 return genericerror(request, "Game Not Running!")
 
         if not request.user.is_authenticated():
-                return redirect("/ctfweb/login/")
+                return HttpResponseRedirect("/ctfweb/login/")
         else:
                 auth_player = currentplayer(request)
 
@@ -60,7 +59,7 @@ def competitordetail(request, comp_id):
                 return genericerror(request, "Game Not Running!")
 
         if not request.user.is_authenticated():
-                return redirect("/ctfweb/login/")
+                return HttpResponseRedirect("/ctfweb/login/")
         else:
                 auth_player = currentplayer(request)
 
@@ -86,7 +85,7 @@ def submitkey(request, challenge_id):
         if not gameisrunning(currentgame()):
                 return genericerror(request, "Game Not Running!")
         if not request.user.is_authenticated():
-                return redirect("/ctfweb/login/")
+                return HttpResponseRedirect("/ctfweb/login/")
         else:
                 auth_player = currentplayer(request)
 
@@ -146,22 +145,23 @@ def registerform(request):
 	if request.user.is_authenticated():
                 return genericerror(request, "You're already authenticated... GTFO")
         else:
-                return render(request, "ctfweb/registerform.html", {})
+                game = currentgame()
+		return render(request, "ctfweb/registerform.html", {'usingregcodes': game.require_regcodes})
 
 
 
 def registerformerror(request, fieldstring):
-
+	game = currentgame()
         errorrecall = True
 	if request.user.is_authenticated():
                 return genericerror(request, "You're already authenticated... GTFO")
         else:
-		return render(request, "ctfweb/registerform.html", {'fieldstring': fieldstring, 'errorrecall': errorrecall})
+		return render(request, "ctfweb/registerform.html", {'fieldstring': fieldstring, 'errorrecall': errorrecall, 'usingregcodes': game.require_regcodes})
 
 	
 
 def registerprocess(request):
-
+	game = currentgame()
 	error = False
 	errorstring =''
 
@@ -200,9 +200,19 @@ def registerprocess(request):
 			errorstring += ' duplicate username: ' + request.POST['username']
 			error=True	
   	
+	if game.require_regcodes :
+		try:
+		   	code = RegCodes.objects.get(code=request.POST['regcode'])
+		        if code.used :
+        	                errorstring += ' registration code has been used'
+	                        error = True
+
+		except RegCodes.DoesNotExist:
+			errorstring += ' invalid registration code'
+			error = True
+			
 	
 
-	
 	if Competitor.objects.filter(display_name=request.POST['displayname']).count():
 			errorstring += " duplicate displayname: " + request.POST['displayname']
 			error=True
@@ -212,7 +222,11 @@ def registerprocess(request):
 		return registerformerror(request, errorstring)
 	else:
 		user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
-		comp = Competitor(game=currentgame(), user=user, display_name=request.POST['displayname'], affiliation=request.POST['affiliation'], url=request.POST['url'], points=0, bad_keys=0, active=1)
+		comp = Competitor(game=currentgame(), user=user, display_name=request.POST['displayname'], affiliation=request.POST['affiliation'], url=request.POST['url'], points=0, bad_keys=0, active=1, ipaddr=get_client_ip(request), regcode=None)
+		if game.require_regcodes and code :
+			comp.regcode = code
+			code.used = 1
+			code.save()
 		comp.save()
 		return genericerror (request, "User Created - Please Login")
 
